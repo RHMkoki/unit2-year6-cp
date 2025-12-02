@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: unit2-year6-cp
+    runtime: node
+    buildCommand: npm install -g pnpm && pnpm install && pnpm run build
+    startCommand: pnpm run start
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      - key: NODE_ENV
+        value: production
