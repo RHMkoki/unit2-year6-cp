@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Year 6 Programming Unit 2 - Complete Revision</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(to right, #4a6fa5, #2c3e50);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+        
+        .lesson-nav {
+            display: flex;
+            background: #34495e;
+            overflow-x: auto;
+            padding: 0;
+        }
+        
+        .lesson-nav button {
+            flex: 1;
+            min-width: 120px;
+            background: transparent;
+            border: none;
+            color: white;
+            padding: 15px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 4px solid transparent;
+        }
+        
+        .lesson-nav button:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        
+        .lesson-nav button.active {
+            background: rgba(255,255,255,0.2);
+            border-bottom: 4px solid #3498db;
+            font-weight: bold;
+        }
+        
+        .content {
+            padding: 40px;
+            min-height: 600px;
+        }
+        
+        .lesson-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .lesson-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h2 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+            font-size: 2.2rem;
+        }
+        
+        h3 {
+            color: #3498db;
+            margin: 20px 0 15px;
+            font-size: 1.6rem;
+        }
+        
+        .concept-box {
+            background: #f8f9fa;
+            border-left: 5px solid #3498db;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .keywords {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .keyword {
+            background: #e3f2fd;
+            color: #1565c0;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border: 1px solid #bbdefb;
+        }
+        
+        .activity {
+            background: #e8f5e9;
+            border-left: 5px solid #4caf50;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 0 10px 10px 0;
+        }
+        
+        .code-block {
+            background: #263238;
+            color: #f0f0f0;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+        
+        .code-comment {
+            color: #8bc34a;
+        }
+        
+        .question-box {
+            background: #fff3e0;
+            border-left: 5px solid #ff9800;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 0 10px 10px 0;
+        }
+        
+        .exam-q {
+            background: #ffebee;
+            border: 2px solid #f44336;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 10px;
+        }
+        
+        .options {
+            margin: 15px 0;
+        }
+        
+        .option {
+            margin: 10px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .option:before {
+            content: "○";
+            position: absolute;
+            left: 0;
+            color: #3498db;
+        }
+        
+        .visualization {
+            background: #f5f5f5;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+            text-align: center;
+            border: 2px dashed #ccc;
+        }
+        
+        .robot-grid {
+            display: inline-grid;
+            grid-template-columns: repeat(5, 60px);
+            grid-template-rows: repeat(5, 60px);
+            gap: 2px;
+            margin: 20px;
+        }
+        
+        .grid-cell {
+            width: 60px;
+            height: 60px;
+            border: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .start { background-color: #c8e6c9; }
+        .end { background-color: #ffcdd2; }
+        .star { background-color: #fff9c4; }
+        .path { background-color: #bbdefb; }
+        
+        .scratch-block {
+            display: inline-block;
+            background: #4a6fa5;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin: 5px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .btn-prev {
+            background: #7f8c8d;
+        }
+        
+        .btn-prev:hover {
+            background: #6c7b7d;
+        }
+        
+        .btn-next {
+            background: #2ecc71;
+        }
+        
+        .btn-next:hover {
+            background: #27ae60;
+        }
+        
+        .progress-bar {
+            height: 5px;
+            background: #ecf0f1;
+            margin-top: 20px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background: #2ecc71;
+            width: 20%;
+            transition: width 0.5s ease;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                border-radius: 10px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .lesson-nav button {
+                min-width: 100px;
+                font-size: 1rem;
+                padding: 12px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Year 6 Programming Unit 2</h1>
+            <p class="subtitle">Complete Revision Guide - Lessons 3 to 7</p>
+        </header>
+        
+        <div class="lesson-nav">
+            <button class="active" onclick="showLesson(1)">Lesson 3: Efficient Algorithms</button>
+            <button onclick="showLesson(2)">Lesson 4: Algorithms to Code</button>
+            <button onclick="showLesson(3)">Lesson 5: Game Design</button>
+            <button onclick="showLesson(4)">Lesson 6: Forever Loops</button>
+            <button onclick="showLesson(5)">Lesson 7: IF...THEN Conditions</button>
+        </div>
+        
+        <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+        </div>
+        
+        <div class="content">
+            <!-- Lesson 3 Content -->
+            <div class="lesson-content active" id="lesson1">
+                <h2>Lesson 3: Programming Solutions with Loops</h2>
+                
+                <div class="concept-box">
+                    <h3>Core Concepts</h3>
+                    <p><strong>Efficiency in Algorithms:</strong> Using the fewest steps to solve a problem while meeting all criteria.</p>
+                    <p><strong>Multiple Solutions:</strong> Most problems have more than one solution, but we aim for the most efficient.</p>
+                    <p><strong>Loops for Efficiency:</strong> Repeating commands using loops makes algorithms shorter and less error-prone.</p>
+                </div>
+                
+                <div class="keywords">
+                    <span class="keyword">Algorithm</span>
+                    <span class="keyword">Efficiency</span>
+                    <span class="keyword">Loop</span>
+                    <span class="keyword">Route</span>
+                    <span class="keyword">Criteria</span>
+                    <span class="keyword">Debug</span>
+                </div>
+                
+                <div class="activity">
+                    <h3>Key Activity: Finding Efficient Routes</h3>
+                    <p>Plan a route for a robot from point A to B that:</p>
+                    <ul>
+                        <li>Collects all gems/stars along the way</li>
+                        <li>Uses the fewest commands possible</li>
+                        <li>Incorporates loops where appropriate</li>
+                    </ul>
+                    
+                    <div class="visualization">
+                        <h4>Robot Route Visualization</h4>
+                        <div class="robot-grid">
+                            <div class="grid-cell start">A</div>
+                            <div class="grid-cell"></div>
+                            <div class="grid-cell star">★</div>
+                            <div class="grid-cell"></div>
+                            <div class="grid-cell"></div>
+                            <div class="grid-cell"></div>
+                            <div class="grid-cell star">★</div>
+                            <div class="grid-cell"></div>
+                            <div class="grid-cell star">★</div>
+                            <div class="grid-cell"></div>
+                            <div class="grid-cell"></div>
+                            <div class="grid-cell"></div>
+                            <div class="grid-cell"></div>
+                            <div class="grid-cell star">★</div>
+                            <div class="grid-cell"></div>
+                            <div class="grid-cell"></div>
+                            <div class="grid-cell"></div>
+                            <div class="grid-cell"></div>
+                            <div class="grid-cell"></div>
+                            <div class="grid-cell end">B</div>
+                        </div>
+                        <p>Task: Create an algorithm to move from A to B collecting all stars ★</p>
+                    </div>
+                </div>
+                
+                <div class="code-block">
+                    <h4>Algorithm Examples</h4>
+                    <p><strong>Inefficient Algorithm:</strong></p>
+                    <p>Forward, Forward, Left, Forward, Right, Forward, Forward, Right, Forward</p>
+                    <p><strong>Efficient Algorithm with Loop:</strong></p>
+                    <p>Repeat 2 times: Forward</p>
+                    <p>Left</p>
+                    <p>Repeat 3 times: Forward</p>
+                    <p>Right</p>
+                    <p>Repeat 2 times: Forward</p>
+                </div>
+                
+                <div class="exam-q">
+                    <h3>Exam-Style Questions</h3>
+                    <div class="question-box">
+                        <p><strong>Q1:</strong> What is wrong with this algorithm?</p>
+                        <p>Enjoy drink → Pour drink into glass → Put away drink and glass → Open bottle of drink</p>
+                        <div class="options">
+                            <div class="option">A) It is impossible</div>
+                            <div class="option">B) It is missing a loop</div>
+                            <div class="option">C) It is out of sequence</div>
+                            <div class="option">D) Nothing at all</div>
+                        </div>
+                        <p class="code-comment">Answer: C - You can't enjoy a drink before opening the bottle!</p>
+                    </div>
+                    
+                    <div class="question-box">
+                        <p><strong>Q2:</strong> What does "being efficient" mean when writing algorithms?</p>
+                        <div class="options">
+                            <div class="option">A) Using the fewest number of commands to achieve the same outcome</div>
+                            <div class="option">B) Making sure you include selection</div>
+                            <div class="option">C) Using as many commands as possible</div>
+                            <div class="option">D) Making sure you remove indentations from the algorithm</div>
+                        </div>
+                        <p class="code-comment">Answer: A - Efficiency means achieving the same result with fewer commands.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Lesson 4 Content -->
+            <div class="lesson-content" id="lesson2">
+                <h2>Lesson 4: From Algorithms to Code</h2>
+                
+                <div class="concept-box">
+                    <h3>Core Concepts</h3>
+                    <p><strong>Algorithm vs Code:</strong> An algorithm uses agreed notation; code is exactly what the computer reads.</p>
+                    <p><strong>Scratch Terminology:</strong> In Scratch, we use "repeat" instead of "loop".</p>
+                    <p><strong>Sequencing:</strong> Commands must be in the correct order for the program to work properly.</p>
+                </div>
+                
+                <div class="keywords">
+                    <span class="keyword">Code</span>
+                    <span class="keyword">Command</span>
+                    <span class="keyword">Repeat</span>
+                    <span class="keyword">Scratch</span>
+                    <span class="keyword">Sprite</span>
+                    <span class="keyword">Debugging</span>
+                    <span class="keyword">Notation</span>
+                </div>
+                
+                <div class="activity">
+                    <h3>Key Activity: Scratch Translation</h3>
+                    <p>Translate your robot algorithm into Scratch code:</p>
+                    <ol>
+                        <li>Use motion blocks for movement</li>
+                        <li>Use control blocks for repetition</li>
+                        <li>Test and debug your code</li>
+                    </ol>
+                    
+                    <div class="code-block">
+                        <h4>Scratch Code Example</h4>
+                        <p><span class="scratch-block">when green flag clicked</span></p>
+                        <p><span class="scratch-block">repeat (5)</span></p>
+                        <p>&nbsp;&nbsp;<span class="scratch-block">move (10) steps</span></p>
+                        <p>&nbsp;&nbsp;<span class="scratch-block">turn cw (15) degrees</span></p>
+                        <p>&nbsp;&nbsp;<span class="scratch-block">wait (1) seconds</span></p>
+                        <p><span class="scratch-block">go to x:(0) y:(0)</span></p>
+                        <p class="code-comment">This program moves, turns, waits, then returns to center</p>
+                    </div>
+                </div>
+                
+                <div class="visualization">
+                    <h4>Scratch Motion Blocks</h4>
+                    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 20px;">
+                        <div class="scratch-block">move (10) steps</div>
+                        <div class="scratch-block">turn ↻ (15) degrees</div>
+                        <div class="scratch-block">go to x:(0) y:(0)</div>
+                        <div class="scratch-block">go to random position</div>
+                        <div class="scratch-block">point in direction (90)</div>
+                    </div>
+                    <p>Motion blocks control sprite movement on the stage</p>
+                </div>
+                
+                <div class="exam-q">
+                    <h3>Exam-Style Questions</h3>
+                    <div class="question-box">
+                        <p><strong>Q1:</strong> What will happen when you click "run" on this program?</p>
+                        <div class="code-block">
+                            <p>when run</p>
+                            <p>repeat 5 times</p>
+                            <p>&nbsp;&nbsp;move forward</p>
+                        </div>
+                        <div class="options">
+                            <div class="option">A) The robot will not move</div>
+                            <div class="option">B) The robot will move five times and collect the gems</div>
+                            <div class="option">C) The robot will only move one space</div>
+                            <div class="option">D) The robot will only move four spaces</div>
+                        </div>
+                        <p class="code-comment">Answer: B - The repeat block executes the move command 5 times.</p>
+                    </div>
+                    
+                    <div class="question-box">
+                        <p><strong>Q2:</strong> Match each term to the correct description:</p>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 15px 0;">
+                            <div><strong>User interaction</strong></div>
+                            <div>A) Letting the user input data that affects program outputs</div>
+                            
+                            <div><strong>Notation</strong></div>
+                            <div>B) An agreed set of algorithm codes that users understand</div>
+                            
+                            <div><strong>Debugging</strong></div>
+                            <div>C) Spotting and removing errors from an algorithm or program</div>
+                        </div>
+                        <p class="code-comment">Answers: User interaction = A, Notation = B, Debugging = C</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Lesson 5 Content -->
+            <div class="lesson-content" id="lesson3">
+                <h2>Lesson 5: Creating a 'Frogger'-Style Game</h2>
+                
+                <div class="concept-box">
+                    <h3>Core Concepts</h3>
+                    <p><strong>Game Design:</strong> Breaking down a complex game into manageable parts.</p>
+                    <p><strong>Sprites:</strong> Characters or objects in a game (like the frog and cars).</p>
+                    <p><strong>Decomposition:</strong> Breaking a big problem into smaller sub-problems.</p>
+                    <p><strong>String:</strong> A sequence of characters (text) used to display messages.</p>
+                </div>
+                
+                <div class="keywords">
+                    <span class="keyword">Sprite</span>
+                    <span class="keyword">Movement</span>
+                    <span class="keyword">IF...THEN...</span>
+                    <span class="keyword">String</span>
+                    <span class="keyword">Decomposition</span>
+                    <span class="keyword">Background</span>
+                    <span class="keyword">Interaction</span>
+                </div>
+                
+                <div class="activity">
+                    <h3>Key Activity: Game Planning</h3>
+                    <p>Plan your Frogger game by considering:</p>
+                    <ul>
+                        <li><strong>Background:</strong> Create or choose a road/street scene</li>
+                        <li><strong>Character sprite:</strong> Frog (can edit or create your own)</li>
+                        <li><strong>Sprite movement:</strong> Program up/down/left/right with arrow keys</li>
+                        <li><strong>Additional objects:</strong> Cars that move continuously</li>
+                        <li><strong>Character interaction:</strong> What happens when frog touches cars or reaches goal</li>
+                    </ul>
+                    
+                    <div class="visualization">
+                        <h4>Frogger Game Elements</h4>
+                        <div style="display: flex; justify-content: space-around; flex-wrap: wrap; margin: 20px;">
+                            <div style="text-align: center;">
+                                <div style="width: 80px; height: 80px; background: #4caf50; border-radius: 50%; margin: 0 auto 10px;"></div>
+                                <p>Frog Sprite</p>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="width: 120px; height: 60px; background: #e74c3c; margin: 0 auto 10px;"></div>
+                                <p>Car Sprite</p>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="width: 100px; height: 100px; background: linear-gradient(gray 50%, white 50%); margin: 0 auto 10px;"></div>
+                                <p>Road Background</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="code-block">
+                    <h4>Game Planning Checklist</h4>
+                    <p>✓ Save project with sensible filename</p>
+                    <p>✓ Save regularly</p>
+                    <p>✓ Test small sections of code as you go</p>
+                    <p>✓ Start movement with 10 steps, adjust as needed</p>
+                    <p>✓ Prepare costume for when frog touches obstacle</p>
+                    <p class="code-comment">Tip: Right-click in Scratch to add comments to your code!</p>
+                </div>
+                
+                <div class="exam-q">
+                    <h3>Exam-Style Questions</h3>
+                    <div class="question-box">
+                        <p><strong>Q1:</strong> Which of these is an example of decomposition?</p>
+                        <div class="options">
+                            <div class="option">A) Writing all the code at once without testing</div>
+                            <div class="option">B) Breaking a game project into smaller parts like background, sprites, and movement</div>
+                            <div class="option">C) Making the game as complicated as possible</div>
+                            <div class="option">D) Only focusing on one part of the game</div>
+                        </div>
+                        <p class="code-comment">Answer: B - Decomposition means breaking big problems into smaller ones.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Lesson 6 Content -->
+            <div class="lesson-content" id="lesson4">
+                <h2>Lesson 6: Forever Loops & Movement</h2>
+                
+                <div class="concept-box">
+                    <h3>Core Concepts</h3>
+                    <p><strong>Forever Loop:</strong> A loop that runs continuously until the program stops.</p>
+                    <p><strong>Automated Movement:</strong> Using loops to make sprites move without user input.</p>
+                    <p><strong>Multiple Sprites:</strong> Programming each sprite separately with its own code.</p>
+                    <p><strong>Stage Coordinates:</strong> The center is (0,0); x-axis is horizontal, y-axis is vertical.</p>
+                </div>
+                
+                <div class="keywords">
+                    <span class="keyword">Forever Loop</span>
+                    <span class="keyword">Obstacle</span>
+                    <span class="keyword">Sprite</span>
+                    <span class="keyword">Coordinates</span>
+                    <span class="keyword">Automated Movement</span>
+                    <span class="keyword">x-axis / y-axis</span>
+                </div>
+                
+                <div class="activity">
+                    <h3>Key Activity: Programming Car Movement</h3>
+                    <p>Add car sprites and program them to move automatically:</p>
+                    <ol>
+                        <li>Add car sprite using "Choose a Sprite"</li>
+                        <li>Program with forever loop for continuous movement</li>
+                        <li>Set starting position with coordinates</li>
+                        <li>Adjust speed by changing step amount</li>
+                    </ol>
+                    
+                    <div class="code-block">
+                        <h4>Sample Car Movement Code</h4>
+                        <p><span class="scratch-block">when green flag clicked</span></p>
+                        <p><span class="scratch-block">forever</span></p>
+                        <p>&nbsp;&nbsp;<span class="scratch-block">go to x: (230) y: (-130)</span></p>
+                        <p>&nbsp;&nbsp;<span class="scratch-block">repeat (60)</span></p>
+                        <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class="scratch-block">change x by (-8)</span></p>
+                        <p>&nbsp;&nbsp;<span class="scratch-block">hide</span></p>
+                        <p>&nbsp;&nbsp;<span class="scratch-block">wait (3) seconds</span></p>
+                        <p>&nbsp;&nbsp;<span class="scratch-block">show</span></p>
+                        <p class="code-comment">This makes a car move left across the screen, hide, wait, then reappear</p>
+                    </div>
+                </div>
+                
+                <div class="visualization">
+                    <h4>Stage Coordinate System</h4>
+                    <div style="position: relative; width: 300px; height: 300px; border: 2px solid #333; margin: 20px auto; background: #f0f0f0;">
+                        <div style="position: absolute; top: 50%; left: 50%; width: 4px; height: 4px; background: red; border-radius: 50%; transform: translate(-50%, -50%);"></div>
+                        <div style="position: absolute; top: 50%; left: 10px; transform: translateY(-50%);">← x: -240</div>
+                        <div style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%);">x: 240 →</div>
+                        <div style="position: absolute; left: 50%; top: 10px; transform: translateX(-50%);">↑ y: 180</div>
+                        <div style="position: absolute; left: 50%; bottom: 10px; transform: translateX(-50%);">↓ y: -180</div>
+                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-weight: bold;">(0,0)</div>
+                    </div>
+                    <p>Center = (0,0), Right = positive x, Left = negative x, Up = positive y, Down = negative y</p>
+                </div>
+                
+                <div class="exam-q">
+                    <h3>Exam-Style Questions</h3>
+                    <div class="question-box">
+                        <p><strong>Q1:</strong> Which block would be most useful for making automated characters move around the screen until the game ends?</p>
+                        <div class="options">
+                            <div class="option">A) IF...THEN...</div>
+                            <div class="option">B) repeat</div>
+                            <div class="option">C) wait until</div>
+                            <div class="option">D) forever loop</div>
+                        </div>
+                        <p class="code-comment">Answer: D - Forever loop runs continuously until stopped.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Lesson 7 Content -->
+            <div class="lesson-content" id="lesson5">
+                <h2>Lesson 7: IF...THEN Conditions for Interaction</h2>
+                
+                <div class="concept-box">
+                    <h3>Core Concepts</h3>
+                    <p><strong>Conditional Statements:</strong> IF...THEN blocks that check conditions and run code when true.</p>
+                    <p><strong>Interaction:</strong> When sprites touch or collide with each other.</p>
+                    <p><strong>Input & Output:</strong> Input = user action or collision, Output = game response.</p>
+                    <p><strong>Sensing Blocks:</strong> Detect when sprites touch or conditions are met.</p>
+                </div>
+                
+                <div class="keywords">
+                    <span class="keyword">IF...THEN...</span>
+                    <span class="keyword">Condition</span>
+                    <span class="keyword">Interaction</span>
+                    <span class="keyword">Input</span>
+                    <span class="keyword">Output</span>
+                    <span class="keyword">Sensing Block</span>
+                    <span class="keyword">Decompose</span>
+                </div>
+                
+                <div class="activity">
+                    <h3>Key Activity: Programming Collision Detection</h3>
+                    <p>Program what happens when the frog touches a car:</p>
+                    <ul>
+                        <li>Game stops</li>
+                        <li>Sprite changes costume (to "frog splat")</li>
+                        <li>Play "splat" sound effect</li>
+                        <li>Wait 3 seconds, then reset to starting position</li>
+                    </ul>
+                    
+                    <div class="code-block">
+                        <h4>Collision Detection Code</h4>
+                        <p><span class="scratch-block">when green flag clicked</span></p>
+                        <p><span class="scratch-block">forever</span></p>
+                        <p>&nbsp;&nbsp;<span class="scratch-block">if touching (Car Sprite) ? then</span></p>
+                        <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class="scratch-block">switch costume to (Frog Splat)</span></p>
+                        <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class="scratch-block">play sound (Splat Noise) until done</span></p>
+                        <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class="scratch-block">wait (3) seconds</span></p>
+                        <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class="scratch-block">go to x: (-167) y: (7)</span></p>
+                        <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class="scratch-block">switch costume to (Frog Normal)</span></p>
+                        <p class="code-comment">The forever loop constantly checks if frog touches car, then runs the collision code</p>
+                    </div>
+                </div>
+                
+                <div class="visualization">
+                    <h4>IF...THEN Logic Flow</h4>
+                    <div style="display: flex; flex-direction: column; align-items: center; margin: 20px;">
+                        <div style="background: #3498db; color: white; padding: 15px 30px; border-radius: 10px; margin: 10px;">
+                            Condition Check: Frog touches car?
+                        </div>
+                        <div style="font-size: 2rem; margin: 10px;">↓</div>
+                        <div style="background: #2ecc71; color: white; padding: 15px 30px; border-radius: 10px; margin: 10px; text-align: center;">
+                            IF TRUE:<br>Change costume, play sound, reset
+                        </div>
+                        <div style="font-size: 2rem; margin: 10px;">↓</div>
+                        <div style="background: #e74c3c; color: white; padding: 15px 30px; border-radius: 10px; margin: 10px; text-align: center;">
+                            IF FALSE:<br>Continue game normally
+                        </div>
+                    </div>
+                    <p>Conditional statements create different pathways in your program</p>
+                </div>
+                
+                <div class="exam-q">
+                    <h3>Exam-Style Questions</h3>
+                    <div class="question-box">
+                        <p><strong>Q1:</strong> What is selection in programming?</p>
+                        <div class="options">
+                            <div class="option">A) Choosing which sprite to use</div>
+                            <div class="option">B) Making a choice between pathways based on a condition</div>
+                            <div class="option">C) Selecting colors for your game</div>
+                            <div class="option">D) Choosing the background</div>
+                        </div>
+                        <p class="code-comment">Answer: B - Selection means choosing different actions based on conditions.</p>
+                    </div>
+                    
+                    <div class="question-box">
+                        <p><strong>Q2:</strong> Circle the errors in this game program and describe how to fix them:</p>
+                        <div class="code-block">
+                            <p>when left arrow key pressed</p>
+                            <p>change x by (25)</p>
+                            <p>when down arrow key pressed</p>
+                            <p>change y by (25)</p>
+                            <p>when right arrow key pressed</p>
+                            <p>change x by (25)</p>
+                            <p>when down arrow key pressed</p>
+                            <p>change y by (25)</p>
+                        </div>
+                        <p class="code-comment">Error 1: "when down arrow key pressed" appears twice (should be "when up arrow key pressed" for one).</p>
+                        <p class="code-comment">Error 2: Missing negative values for left/down movements (should be change x by -25 for left, change y by -25 for down).</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button class="btn btn-prev" onclick="prevLesson()">Previous Lesson</button>
+            <button class="btn btn-next" onclick="nextLesson()">Next Lesson</button>
+        </div>
+    </div>
+    
+    <script>
+        let currentLesson = 1;
+        const totalLessons = 5;
+        
+        function showLesson(lessonNumber) {
+            // Update navigation buttons
+            document.querySelectorAll('.lesson-nav button').forEach((btn, index) => {
+                if (index + 1 === lessonNumber) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            
+            // Update lesson content
+            document.querySelectorAll('.lesson-content').forEach((content, index) => {
+                if (index + 1 === lessonNumber) {
+                    content.classList.add('active');
+                } else {
+                    content.classList.remove('active');
+                }
+            });
+            
+            // Update progress bar
+            document.getElementById('progress').style.width = `${(lessonNumber / totalLessons) * 100}%`;
+            
+            currentLesson = lessonNumber;
+        }
+        
+        function nextLesson() {
+            if (currentLesson < totalLessons) {
+                showLesson(currentLesson + 1);
+            }
+        }
+        
+        function prevLesson() {
+            if (currentLesson > 1) {
+                showLesson(currentLesson - 1);
+            }
+        }
+        
+        // Initialize the first lesson
+        showLesson(1);
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowRight') {
+                nextLesson();
+            } else if (event.key === 'ArrowLeft') {
+                prevLesson();
+            }
+        });
+    </script>
+</body>
+</html>
